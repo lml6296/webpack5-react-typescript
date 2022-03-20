@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Layout, Menu } from "antd";
+import { connect } from 'react-redux';
 import './index.css';
 import {
     UserOutlined,
@@ -54,7 +55,7 @@ const iconList = {
   '/right-manage': <UserOutlined />,
   '/news-manage': <UserOutlined />
 }
-export default function SideMenu () {
+function SideMenu (props) {
     // const [collapsed, setcollapsed] = useState(false);
     // const [menuList, setMenuList] = useState([]);
     // useEffect(() => {
@@ -86,7 +87,7 @@ export default function SideMenu () {
     const location = useLocation();
     const openKeys = ['/' + location.pathname.split('/')[1]];
     return (
-      <Sider trigger={null} collapsible collapsed={false}>
+      <Sider trigger={null} collapsible collapsed={props.isCollapsed}>
         <div style={{display: 'flex', height: '100%', 'flexDirection': 'column'}}>
           <div className="logo">新闻管理平台</div>
           <div style={{flex: '1', 'overflow': 'auto'}}>
@@ -98,3 +99,10 @@ export default function SideMenu () {
       </Sider>
     )
 }
+const mapStateToProps = ({collapsedReducer: {isCollapsed}}) => {
+  return {
+    isCollapsed
+  }
+}
+
+export default connect(mapStateToProps)(SideMenu);

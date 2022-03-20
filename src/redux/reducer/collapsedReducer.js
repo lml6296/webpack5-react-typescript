@@ -10,5 +10,4 @@ export const collapsedReducer = (preState = {
         default:
             return preState;
     }
-
 }

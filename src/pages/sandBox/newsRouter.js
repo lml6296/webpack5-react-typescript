@@ -1,5 +1,7 @@
 import React from 'react'
 import { Routes, Route, Navigate } from "react-router-dom";
+import { Spin } from 'antd';
+import { connect } from 'react-redux';
 
 import Home from "./home/home";
 import UserList from "./userManage/userList";
@@ -38,10 +40,11 @@ const menuList = [
   }
 ]
 
-export default function newsRouter() {
+function newsRouter(props) {
   const role = 2;
   return (
     <div>
+      <Spin size="large" spinning={props.isLoading}>
       <Routes>
         {
           menuList.map((item) => 
@@ -55,6 +58,15 @@ export default function newsRouter() {
         <Route path="/" element={<Navigate to='/home'/>}></Route>
         <Route path="*" element={< NoPermission/>}></Route>
       </Routes>
+      </Spin>
     </div>
   )
 }
+
+const mapStateToProps = ({loadingReducer: {isLoading}}) => {
+  return {
+    isLoading
+  }
+}
+
+export default connect(mapStateToProps)(newsRouter);
