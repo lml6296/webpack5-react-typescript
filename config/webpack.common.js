@@ -10,7 +10,7 @@ const PROJECT_PATH = path.resolve(__dirname, '../'); // 项目的根目录
 
 module.exports = {
     entry: {
-        app: path.resolve(__dirname, '../src/index.tsx'),
+        app: path.resolve(__dirname, '../src/index.js'),
     },
     output: {
         filename: 'js/[name].[hash:8].js',
@@ -22,24 +22,20 @@ module.exports = {
     },
     optimization: {
         // 抽离公共代码
-        splitChunks: {
-           chunks: 'all', // 表示选择哪些chunk进行优化
-        },
-        minimizer: [
-            // 生产环境下压缩抽离出来的css
-            new CssMinimizerPlugin(),
-        ]
+        // splitChunks: {
+        //    chunks: 'all', // 表示选择哪些chunk进行优化
+        // },
     },
     module: {
         rules: [
             // 支持css
             {
                 test: /\.css$/i,
+                exclude: '/node_modules',
                 use: [
                     {
                         loader: isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
-
-                    },
+                    }, 
                     {
                         loader: 'css-loader',
                         options: {
@@ -47,7 +43,18 @@ module.exports = {
                             sourceMap: isDev,
                         }
                     }, 
-                    'postcss-loader',
+                    // 'postcss-loader',
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            postcssOptions: {
+                                plugins: [
+                                    // postcss-preset-env 包含 autoprefixer
+                                    'postcss-preset-env',
+                                ],
+                            },
+                        },
+                    }
                 ],
             },
             // 支持图片,webpack5内置Asset Modules
@@ -88,30 +95,31 @@ module.exports = {
                 test: /\.(tsx?|js)$/,
                 exclude: /(node_modules|bower_components)/,
                 use: {
-                  loader: 'babel-loader',
-                  options: {
-                    presets: [
-                        [
-                            '@babel/preset-env',
-                            {
-                                // 防止babel将任何模块类型都转译成CommonJS类型，导致tree-shaking失效问题
-                                "modules": false
-                            }
-                        ],
-                        "@babel/preset-react",
-                        "@babel/preset-typescript",
-                    ],
-                    plugins: ['@babel/plugin-transform-runtime'],
-                    cacheDirectory: true,
-                  }
-                }
+                    loader: 'babel-loader',
+                    options: {
+                      presets: [
+                          [
+                              '@babel/preset-env',
+                              {
+                                  // 防止babel将任何模块类型都转译成CommonJS类型，导致tree-shaking失效问题
+                                  "modules": false
+                              }
+                          ],
+                          "@babel/preset-react",
+                          "@babel/preset-typescript",
+                      ],
+                      plugins: ['@babel/plugin-transform-runtime'],
+                      cacheDirectory: true,
+                    }
+                  }    
               }
         ]
     },
     plugins: [
         // 自动生成一个html5文件，在body中使用script标签引入所有webpack生成的bundle
         new HtmlWebpackPlugin({
-            title: '管理输出',
+            template: path.resolve(PROJECT_PATH, './src/index.html'), // 本地模板文件的地址
+            filename: 'index.html', // 输出文件的文件名称，html文件目录是相对于webpackConfig.output.path路径而言的
         }),
         // 编译打包时进行typescript类型检查
         new ForkTsCheckerWebpackPlugin({

@@ -3,6 +3,6 @@ import ReactDOM from 'react-dom'
 import App from './app'
 
 ReactDOM.render(
-  <App name='vortesnail' age={25} />,
+  <App/>,
   document.querySelector('#root')
 )

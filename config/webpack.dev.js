@@ -11,12 +11,12 @@ module.exports = merge(commom, {
     devServer: {
         static: './dist',
         hot: true,
-        host: '0.0.0.0',
+        host: 'localhost',
         port: 9000,
         open: true,
         proxy: {
             // 例如：对/api/user的请求会被代理到http://localhost:3000/user上
-            './api': 'http://localhost:3000'
+            './api': 'http://localhost:9000'
         },
     },
     devtool: 'source-map',
@@ -24,7 +24,7 @@ module.exports = merge(commom, {
         // 模块热替换
         new webpack.HotModuleReplacementPlugin(),
         // 加快二次编译速度
-        // 解决升级到webpack5使用HardSourceWebpackPlugin出现“tap”的问题
+        // 使用SpeedMeasureWebpackPlugin,解决升级到webpack5使用HardSourceWebpackPlugin出现“tap”的问题
         new SpeedMeasureWebpackPlugin(),
 
     ]
