@@ -1,14 +1,16 @@
 import axios from "axios";
 import store from '../redux/store';
 
-axios.defaults.baseURL = 'http://localhost:9000';
+axios.defaults.baseURL = 'http://localhost:8000';
 // 请求拦截
 axios.interceptors.request.use(function(config) {
+    console.log('请求拦截')
     // 显示loading
     store.dispatch({
-        type: 'change_loading_action',
+        type: 'change_loading',
         payload: true,
-    })
+    });
+    return config;
 }, function(error) {
     return Promise.reject(error);
 })
@@ -16,13 +18,15 @@ axios.interceptors.request.use(function(config) {
 axios.interceptors.response.use(function(config) {
     // 隐藏loading
     store.dispatch({
-        type: 'change_loading_action',
+        type: 'change_loading',
         payload: false,
-    })
+    });
+    return config;
 }, function(error) {
     store.dispatch({
-        type: 'change_loading_action',
+        type: 'change_loading',
         payload: false,
     })
+    console.log(error)
     return Promise.reject(error);
 })

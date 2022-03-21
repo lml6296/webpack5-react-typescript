@@ -7,8 +7,8 @@ export default function UserList() {
   useEffect(() => {
     axios.get('http://localhost:8000/users').then(res => {
       setUserList(res.data);
-    })
-    console.log(userList)
+      console.log(userList)
+    });
   },[])
 
   const columns = [

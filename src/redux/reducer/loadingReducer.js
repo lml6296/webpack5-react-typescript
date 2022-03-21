@@ -3,7 +3,7 @@ export const loadingReducer = (preState = {
 }, action) => {
     let { type, payload } = action;
     switch(type) {
-        case 'change_loading_action':
+        case 'change_loading':
             let newState = { ...preState };
             newState.isLoading = payload;
             return newState;
