@@ -3,16 +3,21 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import {Form, Input, Button, CheckBox} from 'antd';
 import './login.css'
+import { connect } from 'react-redux';
 
 
 
-export default function Login() {
+function Login(props) {
     const navigate = useNavigate();
+    const saveRoleType = (roleType) => {
+        props.saveRoleType(roleType);
+    };
     const login = (value) => {
-        axios.get(`http://localhost:8000/users?username=${value.username}&password=${value.password}`).then(res => {
+        axios.get(`/staffs?username=${value.username}&password=${value.password}`).then(res => {
             if(res.data.length > 0) {
-                console.log(res.data)
+                console.log(res.data[0])
                 localStorage.setItem('token', JSON.stringify(res.data[0]));
+                saveRoleType(res.data[0].roleType);
                 navigate('/home');
             } else {
                 console.log('登录失败');
@@ -24,9 +29,6 @@ export default function Login() {
     return (
         <Form 
             onFinish={login}>
-            {/* <form className='form-box'> */}
-                {/* <div className='tit'>login</div>
-                <input type='text' placeholder='账号'/> */}
                 <Form.Item label="username" name="username">
                     <Input></Input>
                 </Form.Item>
@@ -36,9 +38,16 @@ export default function Login() {
                 <Form.Item>
                     <Button type="primary" htmlType="submit">登录</Button>
                 </Form.Item>
-                {/* <input type=' password' placeholder='密码'/> */}
-                {/* <input type='submit'>登录</input> */}
-            {/* </form> */}
         </Form>
     )
 }
+
+const mapDispatchToProps = {
+    saveRoleType(roleType) {
+        return { 
+            type: 'save_roleType',
+            payload: roleType
+        }
+    }
+}
+export default connect(null, mapDispatchToProps)(Login);

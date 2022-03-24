@@ -17,19 +17,25 @@ const menuList = [
     key: '/home',
     title: '首页',
     icon: <UserOutlined />,
-    roleId: 1,
+    roleType: ['admin', 'checker'],
   },
   {
     key: '/user-manage',
     title: '用户管理',
     icon: <UserOutlined />,
-    roleId: 2,
+    roleType: ['admin'],
     children: [
       {
-        key: '/user-manage/list',
+        key: '/user-manage/staff-list',
+        title: '员工列表',
+        icon: <UserOutlined />,
+        roleType: ['admin'],
+      },
+      {
+        key: '/user-manage/user-list',
         title: '用户列表',
         icon: <UserOutlined />,
-        roleId: 2,
+        roleType: ['admin'],
       }
     ]
   },
@@ -37,50 +43,48 @@ const menuList = [
     key: '/right-manage',
     title: '权限管理',
     icon: <UserOutlined />,
-    roleId: 2,
+    roleType: ['admin'],
     children: [
       {
-        key: '/right-manage/list',
+        key: '/right-manage/right-list',
         title: '权限列表',
         icon: <UserOutlined />,
-        roleId: 2,
-      }
+        roleType: ['admin'],
+      },
     ]
-  }
+  },
+  {
+    key: '/blog-manage',
+    title: '博客管理',
+    icon: <UserOutlined />,
+    roleType: ['checker'],
+    children: [
+      {
+        key: '/blog-manage/blog-list',
+        title: '博客列表',
+        icon: <UserOutlined />,
+        roleType: ['checker'],
+      },
+    ]
+  },
 ]
-// 图标数据
-const iconList = {
-  '/home': <UserOutlined />,
-  '/user-manage': <UserOutlined />,
-  '/right-manage': <UserOutlined />,
-  '/news-manage': <UserOutlined />
-}
 function SideMenu (props) {
-    // const [collapsed, setcollapsed] = useState(false);
-    // const [menuList, setMenuList] = useState([]);
-    // useEffect(() => {
-    //   axios.get('http://localhost:8000/rights?_embed=children').then(res => {
-    //     setMenuList(res.data);
-    //   })
-    // },[]);
-    // const [role, setRole] = useEffect();
-    const role = 2;
     const checkPagePermission = (item) => {
-      // return item.pagepermission === 1;
-      return item.roleId === role;
+      return item.roleType.indexOf(props.roleType) !== -1;
     }
     // v6用useNavigate代替useHistory
     const navigate = useNavigate();
     const menuRender = (menuList) => {
       return menuList.map((item) => {
         if (item.children?.length>0 && checkPagePermission(item)) {
+        // if (item.children?.length>0) {
           return (
-            <SubMenu key={item.key} icon={iconList[item.key]} title={item.title}>
+            <SubMenu key={item.key} icon={item.icon} title={item.title}>
               {menuRender(item.children)}
             </SubMenu>
           )
         }
-        return checkPagePermission(item) && <Menu.Item key={item.key} icon={iconList[item.key]} onClick= {() => navigate(item.key)}>{item.title}</Menu.Item>
+        return checkPagePermission(item) && <Menu.Item key={item.key} icon={item.icon} onClick= {() => navigate(item.key)}>{item.title}</Menu.Item>
       })
     };
       // 
@@ -89,7 +93,7 @@ function SideMenu (props) {
     return (
       <Sider trigger={null} collapsible collapsed={props.isCollapsed}>
         <div style={{display: 'flex', height: '100%', 'flexDirection': 'column'}}>
-          <div className="logo">新闻管理平台</div>
+          <div className="logo">博客管理平台</div>
           <div style={{flex: '1', 'overflow': 'auto'}}>
             <Menu theme="dark" mode="inline" selectedKeys={location.pathname} defaultOpenKeys={openKeys}>
               {menuRender(menuList)}
@@ -99,9 +103,13 @@ function SideMenu (props) {
       </Sider>
     )
 }
-const mapStateToProps = ({collapsedReducer: {isCollapsed}}) => {
+const mapStateToProps = ({
+    collapsedReducer: {isCollapsed},
+    loginReducer: {roleType}
+  }) => {
   return {
-    isCollapsed
+    isCollapsed,
+    roleType,
   }
 }
 

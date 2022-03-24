@@ -1,97 +1,21 @@
 {
-    "rights": [
-        {
-            "id": 1,
-            "title": "首页",
-            "key": "/home",
-            "pagepermission": 1,
-            "grade": 1
-        },
-        {
-            "id": 2,
-            "title": "用户管理",
-            "key": "/user-manage",
-            "pagepermission": 1,
-            "grade": 1
-        },
-        {
-            "id": 7,
-            "title": "权限管理",
-            "key": "/right-manage",
-            "pagepermission": 1,
-            "grade": 1
-        },
-        {
-            "id": 14,
-            "title": "新闻管理",
-            "key": "/news-manage",
-            "pagepermission": 1,
-            "grade": 1
-        }
-      ],
-      "children": [
-          {
-            "id": 2,
-            "title": "用户列表",
-            "rightId": 2,
-            "key": "/user-manage/list",
-            "grade": 2,
-            "pagepermission": 1
-          },
-          {
-              "id": 3,
-              "title": "添加用户",
-              "rightId": 2,
-              "key": "/user-manage/add",
-              "grade": 2
-          },
-          {
-            "id": 4,
-            "title": "删除用户",
-            "rightId": 2,
-            "key": "/user-manage/delete",
-            "grade": 2
-          },
-          {
-            "id": 5,
-            "title": "修改用户",
-            "rightId": 2,
-            "key": "/user-manage/update",
-            "grade": 2
-          },
-          {
-            "id": 8,
-            "title": "角色列表",
-            "rightId": 7,
-            "key": "/right-manage/role",
-            "pagepermission": 1,
-            "grade": 2
-          },
-          {
-            "id": 9,
-            "title": "权限列表",
-            "rightId": 7,
-            "key": "/right-manage/right",
-            "pagepermission": 1,
-            "grade": 2
-          }
-
-      ],
-      "users": [
-        {
-          "id": 1,
-          "username": "admin",
-          "password": "123456",
-          "roleState": true,
-          "default": true,
-          "roleId": 1
-        },
-        {
-          "id": 2,
-          "username": "staff1",
-          "password": "123456",
-          "roleState": true,
-          "roleId": 2
-        }
-      ]
+  "staffs": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "123456",
+      "roleState": true,
+      "default": true,
+      "roleId": 1,
+      "roleType": "admin"
+    },
+    {
+      "id": 2,
+      "username": "checker",
+      "password": "123456",
+      "roleState": true,
+      "roleId": 2,
+      "roleType": "checker"
+    }
+  ]
 }

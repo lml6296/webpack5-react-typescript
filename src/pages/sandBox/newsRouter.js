@@ -5,50 +5,55 @@ import { connect } from 'react-redux';
 
 import Home from "./home/home";
 import UserList from "./userManage/userList";
+import StaffList from "./userManage/staffList"
 import RoleList from "./rightMange/roleList";
 import RightList from "./rightMange/rightList";
 import NoPermission from "./noPermission/noPermission";
+import BlogList from './blogManage/blogList';
 
 const LocalRouteMap = {
-    '/home': <Home />,
-    '/user-manage/list': <UserList />,
-    '/right-manage/list': <RightList />,
-
+  '/home': <Home />,
+  '/user-manage/staff-list': <StaffList />,
+  '/user-manage/user-list': <UserList />,
+  '/right-manage/right-list' : <RightList/>,
+  '/blog-manage/blog-list': <BlogList/>
 }
 const menuList = [
+  // 首页
   {
     key: '/home',
-    roleId: 1,
+    roleType: ['admin', 'checker'],
   },
-  // {
-  //   key: '/user-manage',
-  //   title: '用户管理',
-  //   roleId: 2,
-  // },
+  // 用户列表
   {
-    key: '/user-manage/list',
-    roleId: 2,
+    key: '/user-manage/user-list',
+    roleType: ['admin'],
   },
-  // {
-  //   key: '/right-manage',
-  //   title: '权限管理',
-  //   roleId: 2,
-  // },
+  // 员工列表
   {
-    key: '/right-manage/list',
-    roleId: 2,
+    key: '/user-manage/staff-list',
+    roleType: ['admin'],
+  },
+  // 权限列表
+  {
+    key: '/right-manage/right-list',
+    roleType: ['admin'],
+  },
+  // 博客列表
+  {
+    key: '/blog-manage/blog-list',
+    roleType: ['checker'],
   }
 ]
 
 function newsRouter(props) {
-  const role = 2;
   return (
     <div>
       <Spin size="large" spinning={props.isLoading}>
       <Routes>
         {
           menuList.map((item) => 
-              item.roleId === role && <Route path={item.key} element={LocalRouteMap[item.key]}></Route>
+              item.roleType.indexOf(props.roleType) !== -1 && <Route path={item.key} element={LocalRouteMap[item.key]}></Route>
           )
         }
         {/* <Route path='/home' element={<Home />}></Route>
@@ -63,9 +68,13 @@ function newsRouter(props) {
   )
 }
 
-const mapStateToProps = ({loadingReducer: {isLoading}}) => {
+const mapStateToProps = ({
+  loadingReducer: {isLoading},
+  loginReducer: { roleType }
+}) => {
   return {
-    isLoading
+    isLoading,
+    roleType
   }
 }
 
