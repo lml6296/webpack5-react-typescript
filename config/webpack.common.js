@@ -97,22 +97,22 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                      presets: [
-                          [
-                              '@babel/preset-env',
-                              {
-                                  // 防止babel将任何模块类型都转译成CommonJS类型，导致tree-shaking失效问题
-                                  "modules": false
-                              }
-                          ],
-                          "@babel/preset-react",
-                          "@babel/preset-typescript",
-                      ],
-                      plugins: ['@babel/plugin-transform-runtime'],
-                      cacheDirectory: true,
+                        presets: [
+                            [
+                                '@babel/preset-env',
+                                {
+                                    // 防止babel将任何模块类型都转译成CommonJS类型，导致tree-shaking失效问题
+                                    "modules": false
+                                }
+                            ],
+                            "@babel/preset-react",
+                            "@babel/preset-typescript",
+                        ],
+                        plugins: ['@babel/plugin-transform-runtime'],
+                        cacheDirectory: true,
                     }
-                  }    
-              }
+                }    
+            }
         ]
     },
     plugins: [

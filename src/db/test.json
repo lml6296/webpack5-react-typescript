@@ -17,5 +17,67 @@
       "roleId": 2,
       "roleType": "checker"
     }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "key": 1,
+      "username": "张三",
+      "mobilePhone": 12345678901,
+      "region": "北京",
+      "gender": "男",
+      "age": 26,
+      "roleState": false
+    },
+    {
+      "id": 2,
+      "key": 2,
+      "username": "李四",
+      "mobilePhone": 12345678901,
+      "region": "深圳",
+      "gender": "女",
+      "age": 25,
+      "roleState": true
+    },
+    {
+      "id": 3,
+      "key": 3,
+      "username": "张三",
+      "mobilePhone": 12345678901,
+      "region": "北京",
+      "gender": "男",
+      "age": 26,
+      "roleState": true
+    },
+    {
+      "id": 4,
+      "key": 4,
+      "username": "李四",
+      "mobilePhone": 12345678901,
+      "region": "深圳",
+      "gender": "女",
+      "age": 25,
+      "roleState": false
+    },
+    {
+      "id": 5,
+      "key": 5,
+      "username": "张三",
+      "mobilePhone": 12345678901,
+      "region": "北京",
+      "gender": "男",
+      "age": 26,
+      "roleState": true
+    },
+    {
+      "id": 6,
+      "key": 6,
+      "username": "李四",
+      "mobilePhone": 12345678901,
+      "region": "深圳",
+      "gender": "女",
+      "age": 25,
+      "roleState": false
+    }
   ]
 }

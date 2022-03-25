@@ -3,13 +3,35 @@ import { Layout, Dropdown, Menu, Avatar } from "antd";
 import { connect } from "react-redux";
 const { Header } = Layout;
 import { MenuUnfoldOutlined, MenuFoldOutlined, UserOutlined } from '@ant-design/icons';
+import { useNavigate } from "react-router-dom";
 
-function TopHeader (props) {
+// enum RoleType {
+//   ADMIN = 'admin',
+//   CHECKER = 'checker',
+// }
+// const roleTypeMap = {
+//   [RoleType.ADMIN]: '管理员',
+//   [RoleType.CHECKER]: '审核员',
+// }
+const roleTypeMap = {
+  'admin': '管理员',
+  'checker': '审核员',
+}
+type Props = {
+  isCollapsed: boolean,
+  roleType: string,
+  changeCollapsed: Function,
+}
+function TopHeader (props: Props) {
   const changeCollapsed = () => { props.changeCollapsed() };
+  const navigate = useNavigate();
   const menu = (
     <Menu>
-      <Menu.Item>超级管理员</Menu.Item>
-      <Menu.Item>退出</Menu.Item>
+      <Menu.Item>{roleTypeMap[props.roleType]}</Menu.Item>
+      <Menu.Item danger onClick={() => {
+        localStorage.removeItem('token');
+        navigate('/login');
+      }}>退出</Menu.Item>
     </Menu>
   );
     return (
@@ -18,7 +40,7 @@ function TopHeader (props) {
                 props.isCollapsed ? <MenuUnfoldOutlined onClick={changeCollapsed}/> : <MenuFoldOutlined onClick={changeCollapsed}/>
             }
             <div style={{float: 'right'}}>
-                <span>欢迎回来</span>
+                <span>欢迎{roleTypeMap[props.roleType]}</span>
                 <Dropdown overlay={menu}>
                     <Avatar size="large" icon={<UserOutlined />} />
                 </Dropdown>
@@ -27,9 +49,13 @@ function TopHeader (props) {
     )
 }
 
-const mapStateToProps = ({collapsedReducer: {isCollapsed}}) => {
+const mapStateToProps = ({
+  collapsedReducer: {isCollapsed},
+  loginReducer: { roleType }
+}) => {
   return {
-    isCollapsed
+    isCollapsed,
+    roleType
   }
 }
 const mapDispatchToProps = {

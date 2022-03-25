@@ -6,7 +6,6 @@ import './login.css'
 import { connect } from 'react-redux';
 
 
-
 function Login(props) {
     const navigate = useNavigate();
     const saveRoleType = (roleType) => {
@@ -14,30 +13,23 @@ function Login(props) {
     };
     const login = (value) => {
         axios.get(`/staffs?username=${value.username}&password=${value.password}`).then(res => {
-            if(res.data.length > 0) {
-                console.log(res.data[0])
+            console.log(res.data[0])
+            if(res.data.length === 0) {
+                console.log('登录失败');
+            } else {
                 localStorage.setItem('token', JSON.stringify(res.data[0]));
                 saveRoleType(res.data[0].roleType);
                 navigate('/home');
-            } else {
-                console.log('登录失败');
             }
         }
 
         )
     };
     return (
-        <Form 
-            onFinish={login}>
-                <Form.Item label="username" name="username">
-                    <Input></Input>
-                </Form.Item>
-                <Form.Item label="password" name="password">
-                    <Input.Password />
-                </Form.Item>
-                <Form.Item>
-                    <Button type="primary" htmlType="submit">登录</Button>
-                </Form.Item>
+        <Form onFinish={login}>
+            <Form.Item label="username" name="username"><Input></Input></Form.Item>
+            <Form.Item label="password" name="password"><Input.Password /></Form.Item>
+            <Form.Item><Button type="primary" htmlType="submit">登录</Button></Form.Item>
         </Form>
     )
 }

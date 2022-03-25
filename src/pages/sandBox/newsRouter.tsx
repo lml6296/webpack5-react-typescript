@@ -11,6 +11,10 @@ import RightList from "./rightMange/rightList";
 import NoPermission from "./noPermission/noPermission";
 import BlogList from './blogManage/blogList';
 
+type Props = {
+  isLoading: boolean,
+  roleType: string,
+}
 const LocalRouteMap = {
   '/home': <Home />,
   '/user-manage/staff-list': <StaffList />,
@@ -46,22 +50,18 @@ const menuList = [
   }
 ]
 
-function newsRouter(props) {
+function newsRouter(props: Props) {
   return (
     <div>
       <Spin size="large" spinning={props.isLoading}>
       <Routes>
         {
           menuList.map((item) => 
-              item.roleType.indexOf(props.roleType) !== -1 && <Route path={item.key} element={LocalRouteMap[item.key]}></Route>
+              item.roleType.indexOf(props.roleType) !== -1 && <Route path={item.key} element={LocalRouteMap[item.key]} key={item.key}></Route>
           )
         }
-        {/* <Route path='/home' element={<Home />}></Route>
-        <Route path='/user-manage/list' element={<UserList />}></Route>
-        <Route path='/right-manage/role' element={<RoleList />}></Route>
-        <Route path='/right-manage/right' element={<RightList />}></Route> */}
         <Route path="/" element={<Navigate to='/home'/>}></Route>
-        <Route path="*" element={< NoPermission/>}></Route>
+        <Route path="*" element={<NoPermission />}></Route>
       </Routes>
       </Spin>
     </div>
