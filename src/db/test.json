@@ -7,7 +7,8 @@
       "roleState": true,
       "default": true,
       "roleId": 1,
-      "roleType": "admin"
+      "roleType": "admin",
+      "refreshToken": "refreshToken_admin_123456"
     },
     {
       "id": 2,
@@ -15,7 +16,8 @@
       "password": "123456",
       "roleState": true,
       "roleId": 2,
-      "roleType": "checker"
+      "roleType": "checker",
+      "refreshToken": "refreshToken_checker_123456"
     }
   ],
   "users": [

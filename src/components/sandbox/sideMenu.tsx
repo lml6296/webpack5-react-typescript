@@ -105,7 +105,6 @@ function SideMenu (props: Props) {
       })
     };
     const location = useLocation();
-    console.log(location);
     const openKeys = ['/' + location.pathname.split('/')[1]];
     return (
       <Sider trigger={null} collapsible collapsed={props.isCollapsed}>

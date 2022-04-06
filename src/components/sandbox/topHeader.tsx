@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 const { Header } = Layout;
 import { MenuUnfoldOutlined, MenuFoldOutlined, UserOutlined } from '@ant-design/icons';
 import { useNavigate } from "react-router-dom";
+import { store } from "Src/redux/store";
 
 // enum RoleType {
 //   ADMIN = 'admin',

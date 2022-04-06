@@ -1,45 +1,51 @@
-import React from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import React, { Component, useEffect } from 'react';
 import {Form, Input, Button, CheckBox} from 'antd';
 import './login.css'
 import { connect } from 'react-redux';
-
-
+import loginActions from '../../redux/actions/loginActions';
+import { useNavigate } from 'react-router-dom';
+// type Props = {
+//     toAuthenticateSaga: Function,
+//     getOnboardingStatusSaga: Function,
+//     push: Function,
+//   }
 function Login(props) {
     const navigate = useNavigate();
-    const saveRoleType = (roleType) => {
-        props.saveRoleType(roleType);
-    };
     const login = (value) => {
-        axios.get(`/staffs?username=${value.username}&password=${value.password}`).then(res => {
-            console.log(res.data[0])
-            if(res.data.length === 0) {
-                console.log('登录失败');
-            } else {
-                localStorage.setItem('token', JSON.stringify(res.data[0]));
-                saveRoleType(res.data[0].roleType);
-                navigate('/home');
-            }
-        }
-
-        )
+       props.loginSaga1(value.username, value.password);
+       if (props.isLogin) {
+           navigate('/home');
+       } else {
+           console.log('账号或密码错误')
+       }
     };
-    return (
-        <Form onFinish={login}>
-            <Form.Item label="username" name="username"><Input></Input></Form.Item>
-            <Form.Item label="password" name="password"><Input.Password /></Form.Item>
-            <Form.Item><Button type="primary" htmlType="submit">登录</Button></Form.Item>
-        </Form>
-    )
+        return (
+            <Form onFinish={login}>
+                <Form.Item 
+                label="username" 
+                name="username">
+                    <Input></Input>
+                </Form.Item>
+                <Form.Item 
+                label="password" 
+                name="password">
+                    <Input.Password />
+                </Form.Item>
+                <Form.Item><Button type="primary" htmlType="submit">登录</Button></Form.Item>
+            </Form>
+        )
 }
+const mapStateToProps = ({
+    loginReducer: { roleType, isLogin }
+  }) => {
+    return {
+      roleType,
+      isLogin
+    }
+  }
 
 const mapDispatchToProps = {
-    saveRoleType(roleType) {
-        return { 
-            type: 'save_roleType',
-            payload: roleType
-        }
-    }
+    loginSaga1: loginActions.loginSaga1,
 }
-export default connect(null, mapDispatchToProps)(Login);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -10,6 +10,7 @@ export default function index() {
           <Route path='/login' element={<Login />} />
           {/* react-router-dom v6需要加上通配符*才可以匹配到子组件 */}
           <Route path='/*' element={localStorage.getItem('token') ? <NewsSandBox /> : <Navigate to='/login'/>} />
+          {/* <Route path='/*' element={<NewsSandBox />} /> */}
       </Routes>
     </HashRouter>
   )
