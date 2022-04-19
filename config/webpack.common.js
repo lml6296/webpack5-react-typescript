@@ -9,23 +9,28 @@ const isDev = process.env.NODE_ENV === 'development';
 const PROJECT_PATH = path.resolve(__dirname, '../'); // 项目的根目录
 
 module.exports = {
+    // 表示以哪个文件入口为起点，开始打包，进入肉蔻起点后，webpack会找出有哪些模块和库是入口文件（直接和间接）依赖的
     entry: {
         app: path.resolve(__dirname, '../src/index.js'),
     },
+    // 输出webpack创建的bundle
     output: {
-        filename: 'js/[name].[hash:8].js',
+        // 输出的文件夹
         path: path.resolve(__dirname, '../dist'),
-        clean: true, // 自动清理旧文件
+        // 输出的文件名
+        filename: 'js/[name].[hash:8].js',
+        // 自动清理旧文件
+        clean: true,
     },
+    // 其他配置 - 解析模块的规则
     resolve: {
         extensions: ['.tsx', '.ts', '.js', '.json'], // import的时候可以省略后缀名
     },
-    optimization: {
-        // 抽离公共代码
-        // splitChunks: {
-        //    chunks: 'all', // 表示选择哪些chunk进行优化
-        // },
+    // 防止将某些import的包（例如从CDN引入的不需要改动的JQuery库）打包到bundle中，而是在运行时再从外部去获取这些扩展依赖
+    externals: {
+        jquery: 'jQuery',
     },
+    // 用于配置loader，对源代码进行转换
     module: {
         rules: [
             // 支持css
@@ -41,10 +46,17 @@ module.exports = {
                         options: {
                             // 想要生成 source map，则需将 style-loader 之前执行 loader 的 sourceMap 选项设置为true。
                             sourceMap: isDev,
+                            // CSS Module设置CSS样式隔离,modules为object时
+                            modules: {
+                                // 生成的css文件名
+                                localIdentName: isDev ? '[path][name]_[local]' : '[hash:base64]',
+                            },
+                            // 表示通过@import引入的资源在被css-loader处理之前会被css-loader之前的一个loader先进行处理，这里表示postcss-loader
+                            importLoaders: 1
                         }
                     }, 
-                    // 'postcss-loader',
                     {
+                        
                         loader: 'postcss-loader',
                         options: {
                             postcssOptions: {
@@ -115,6 +127,7 @@ module.exports = {
             }
         ]
     },
+    // 解决loader无法实现的其他事情
     plugins: [
         // 自动生成一个html5文件，在body中使用script标签引入所有webpack生成的bundle
         new HtmlWebpackPlugin({

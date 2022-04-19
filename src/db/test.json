@@ -29,7 +29,7 @@
       "region": "北京",
       "gender": "男",
       "age": 26,
-      "roleState": false
+      "roleState": true
     },
     {
       "id": 2,
@@ -39,7 +39,7 @@
       "region": "深圳",
       "gender": "女",
       "age": 25,
-      "roleState": true
+      "roleState": false
     },
     {
       "id": 3,
@@ -79,7 +79,7 @@
       "region": "深圳",
       "gender": "女",
       "age": 25,
-      "roleState": false
+      "roleState": true
     }
   ]
 }

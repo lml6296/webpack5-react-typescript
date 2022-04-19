@@ -2,30 +2,32 @@
 import { call, put, select, takeEvery, takeLatest, throttle } from 'redux-saga/effects';
 import axios from 'axios';
 import userActions from '../actions/userActions';
-
-// type SagaAction = {
-//     type: string,
-//     payload: any,
+// action = {
+//     type,
+//     payload,
 //     deferred: {
-//       resolve: (value?: any) => void,
-//       reject: (reason?: any) => void,
-//     },
+//         resolve,
+//         reject,
+//     }
 // }
-
 export function* userSaga() {
     yield takeLatest(userActions.fetchUserListSaga, function* (action) {
+        const {deferred} = action;
         try {
             const res = yield call(axios.get, '/users');
+            deferred.resolve(res.data);
             yield put(userActions.saveUserList(res.data));
         } catch {
+            deferred.reject();
         }
     });
     yield takeEvery(userActions.changeStatusSaga, function* (action) {
+        const {deferred} = action;
         const { item } = action.payload;
+        const roleState = !item.roleState;
         try {
-            yield call(axios.patch, `/users/${item.id}`, {roleState: !item.roleState});
-            const res = yield call(axios.get, '/users');
-            yield put(userActions.saveUserList(res.data));
+            yield call(axios.patch, `/users/${item.id}`, {roleState});
+            deferred.resolve();
         } catch {
             
         }

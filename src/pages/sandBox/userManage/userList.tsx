@@ -9,9 +9,9 @@ function UserList(props) {
   const [userList, setUserList] = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   useEffect(() => {
-    // props.xxxsaga其实就是一个action
-    props.fetchUserListSaga();
-    setUserList(props.userList);
+    props.fetchUserListSaga().then((res) => {
+      setUserList(res);
+    });
   },[])
   const columns = [
     {
@@ -78,12 +78,13 @@ function UserList(props) {
   const hasSelected = selectedRowKeys.length > 0;
   // 启用、禁用
   const changeStatus = (item) => {
-    props.changeStatusSaga(item);
-    item.roleState = !item.roleState;
-    // setUserList([...userList]);
-    // axios.patch(`/users/${item.id}`, {
-    //   roleState: item.roleState
-    // })
+    props.changeStatusSaga(item).then(() => {
+      item.roleState = !item.roleState;
+      props.fetchUserListSaga().then((res) => {
+        setUserList(res);
+      });
+      // console.log()
+    });
   };
   return (
     <div>

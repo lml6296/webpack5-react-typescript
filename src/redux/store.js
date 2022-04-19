@@ -6,9 +6,10 @@ import { userReducer } from "./reducer/userReducer";
 // 导入saga,最终需要run一下执行saga
 import { rootSaga } from "./sagas/index";
 import createSagaMiddleware from 'redux-saga';
-// import sagaPromiseMiddleware from '../middlewares/sagaPromiseMiddleware'
+import sagaPromiseMiddleware from './middlewares/sagaPromiseMiddleware'
 const sagaMiddleware = createSagaMiddleware(); // 创建redux middleware
-const enhancers = applyMiddleware(sagaMiddleware); // 关联store
+const middlewares = [sagaPromiseMiddleware, sagaMiddleware];
+const enhancers = applyMiddleware(...middlewares); // 关联store
 // 状态管理，持久化
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";

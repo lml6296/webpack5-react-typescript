@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import Home from "./home/home";
 import UserList from "./userManage/userList";
 import StaffList from "./userManage/staffList"
-import RoleList from "./rightMange/roleList";
 import RightList from "./rightMange/rightList";
 import NoPermission from "./noPermission/noPermission";
 import BlogList from './blogManage/blogList';
